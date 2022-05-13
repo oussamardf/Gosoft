@@ -1,0 +1,18 @@
+{
+  "pass_oublier": "Forgot Password",
+  "login": "Login",
+  "account": "Does not have account",
+  "connect": "Sign in",
+  "pass": "Password",
+  "name": "User Name",
+  "appTitle": "my shops",
+
+"hello": "hello",
+
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+"soft": "go easy",
+"vente": "sale"
+}

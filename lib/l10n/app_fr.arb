@@ -1,0 +1,13 @@
+{
+  "pass_oublier": "Mot de passe oublier",
+  "login": "Connexion",
+  "account": "Vous etes nouveau? creer un compte",
+  "connect": "S'identifier",
+  "pass": "Mot de passe",
+  "name": "Nom d'utilisateur",
+  "hello": "Bonjour" ,
+  "helloWorld": "salut",
+  "appTitle": "GoSoft",
+  "soft": "allez",
+  "vente": "sale"
+}
