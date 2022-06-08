@@ -2,81 +2,81 @@
 //
 //     final data = dataFromJson(jsonString);
 
-import 'dart:convert';
+  import 'dart:convert';
 
-List<Data> dataFromJson(String str) => List<Data>.from(json.decode(str).map((x) => Data.fromJson(x)));
+  List<Data> dataFromJson(String str) => List<Data>.from(json.decode(str).map((x) => Data.fromJson(x)));
 
-String dataToJson(List<Data> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+  String dataToJson(List<Data> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Data {
   Data({
-    required this.id,
-    required this.name,
-    required this.slug,
-    required this.permalink,
-    required this.dateCreated,
-    required this.dateCreatedGmt,
-    required this.dateModified,
-    required this.dateModifiedGmt,
-    required this.type,
-    required this.status,
-    required this.featured,
-    required this.catalogVisibility,
-    required this.description,
-    required this.shortDescription,
-    required this.sku,
-    required this.price,
-    required this.regularPrice,
-    required this.salePrice,
+     this.id,
+     this.name,
+     this.slug,
+     this.permalink,
+     this.dateCreated,
+     this.dateCreatedGmt,
+     this.dateModified,
+     this.dateModifiedGmt,
+     this.type,
+     this.status,
+     this.featured,
+     this.catalogVisibility,
+     this.description,
+     this.shortDescription,
+     this.sku,
+     this.price,
+     this.regularPrice,
+     this.salePrice,
     this.dateOnSaleFrom,
     this.dateOnSaleFromGmt,
     this.dateOnSaleTo,
     this.dateOnSaleToGmt,
-    required this.onSale,
-    required this.purchasable,
-    required this.totalSales,
-    required this.virtual,
-    required this.downloadable,
-    required this.downloads,
-    required this.downloadLimit,
-    required this.downloadExpiry,
-    required this.externalUrl,
-    required this.buttonText,
-    required this.taxStatus,
-    required this.taxClass,
-    required this.manageStock,
+     this.onSale,
+     this.purchasable,
+     this.totalSales,
+     this.virtual,
+     this.downloadable,
+     this.downloads,
+     this.downloadLimit,
+     this.downloadExpiry,
+     this.externalUrl,
+     this.buttonText,
+     this.taxStatus,
+     this.taxClass,
+     this.manageStock,
     this.stockQuantity,
-    required this.backorders,
-    required this.backordersAllowed,
-    required this.backordered,
+     this.backorders,
+     this.backordersAllowed,
+     this.backordered,
     this.lowStockAmount,
-    required this.soldIndividually,
-    required this.weight,
-    required this.dimensions,
-    required this.shippingRequired,
-    required this.shippingTaxable,
-    required this.shippingClass,
-    required this.shippingClassId,
-    required this.reviewsAllowed,
-    required this.averageRating,
-    required this.ratingCount,
-    required this.upsellIds,
-    required this.crossSellIds,
-    required this.parentId,
-    required this.purchaseNote,
-    required this.categories,
-    required this.tags,
-    required this.images,
-    required this.attributes,
-    required this.defaultAttributes,
-    required this.variations,
-    required this.groupedProducts,
-    required this.menuOrder,
-    required this.priceHtml,
-    required this.relatedIds,
-    required this.metaData,
-    required this.stockStatus,
-    required this.links,
+     this.soldIndividually,
+     this.weight,
+     this.dimensions,
+     this.shippingRequired,
+     this.shippingTaxable,
+     this.shippingClass,
+     this.shippingClassId,
+     this.reviewsAllowed,
+     this.averageRating,
+     this.ratingCount,
+     this.upsellIds,
+     this.crossSellIds,
+     this.parentId,
+     this.purchaseNote,
+     this.categories,
+     this.tags,
+     this.images,
+     this.attributes,
+     this.defaultAttributes,
+     this.variations,
+     this.groupedProducts,
+     this.menuOrder,
+     this.priceHtml,
+     this.relatedIds,
+     this.metaData,
+     this.stockStatus,
+     this.links,
   });
 
   int id;
@@ -290,9 +290,9 @@ class Data {
 
 class Category {
   Category({
-    required this.id,
-    required this.name,
-    required this.slug,
+     this.id,
+     this.name,
+     this.slug,
   });
 
   int id;
@@ -314,9 +314,9 @@ class Category {
 
 class Dimensions {
   Dimensions({
-    required this.length,
-    required this.width,
-    required this.height,
+     this.length,
+     this.width,
+     this.height,
   });
 
   String length;
@@ -338,14 +338,14 @@ class Dimensions {
 
 class Image {
   Image({
-    required this.id,
-    required this.dateCreated,
-    required this.dateCreatedGmt,
-    required this.dateModified,
-    required this.dateModifiedGmt,
-    required this.src,
-    required this.name,
-    required this.alt,
+     this.id,
+     this.dateCreated,
+     this.dateCreatedGmt,
+     this.dateModified,
+     this.dateModifiedGmt,
+     this.src,
+     this.name,
+     this.alt,
   });
 
   int id;
@@ -382,8 +382,8 @@ class Image {
 
 class Links {
   Links({
-    required this.self,
-    required this.collection,
+     this.self,
+     this.collection,
   });
 
   List<Collection> self;
@@ -402,7 +402,7 @@ class Links {
 
 class Collection {
   Collection({
-    required this.href,
+     this.href,
   });
 
   String href;
@@ -415,6 +415,7 @@ class Collection {
     "href": href,
   };
 }
+
 
 
 

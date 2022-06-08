@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'EditSuppliers.dart';
+
 class payment extends StatelessWidget {
-  const payment({Key? key}) : super(key: key);
+  const payment({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,10 @@ class payment extends StatelessWidget {
 
         floatingActionButton:     FloatingActionButton(
           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EditSuppliers()),
+            );
 
             // Add your onPressed code here!
           },
@@ -21,6 +27,7 @@ class payment extends StatelessWidget {
           child: const Icon(Icons.add),
         ),
         body: Center(
+
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children:  [
@@ -29,11 +36,14 @@ class payment extends StatelessWidget {
                   //adding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                     children : [
 
-
+                      SizedBox(height: 5,),
                       TextField(
 
                         decoration: InputDecoration(
                           hintText: 'Enter a search term',
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+              ),
                           suffixIcon: IconButton(
                             onPressed: (() {
 
@@ -49,13 +59,12 @@ class payment extends StatelessWidget {
                 Column(
                     children : [
                       Card (
-                        elevation: 20,
+                        elevation: 10,
                         color: Colors.amber,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
 
-
+                          ),
 
 
                         child:Container(
@@ -68,7 +77,7 @@ class payment extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Expanded(
-                                      child:Image.asset('lib/assets/debit-card.png',
+                                      child:Image.asset('assets/images/debit-card.png',
                                         height:50 ,
                                         width: 40,),
                                       flex:2 ,
@@ -120,7 +129,7 @@ class payment extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Expanded(
-                                      child:Image.asset('lib/assets/debit-card.png',
+                                      child:Image.asset('assets/images/debit-card.png',
                                         height:50 ,
                                         width: 40,),
                                       flex:2 ,
@@ -176,7 +185,7 @@ class payment extends StatelessWidget {
                                   child: Padding(
                                     padding: EdgeInsets.all(10),
                                     child: Expanded(
-                                      child:Image.asset('lib/assets/debit-card.png',
+                                      child:Image.asset('assets/images/debit-card.png',
                                         height:50 ,
                                         width: 40,),
                                       flex:2 ,

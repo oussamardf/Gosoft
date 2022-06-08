@@ -1,3 +1,4 @@
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -5,14 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/classe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'addToCard.dart';
 
 
 class BareCode extends StatefulWidget {
-  const BareCode({Key? key}) : super(key: key);
+  const BareCode({Key key}) : super(key: key);
 
   @override
   _MyApState createState() => _MyApState();
@@ -20,12 +25,18 @@ class BareCode extends StatefulWidget {
 
 class _MyApState extends State<BareCode> {
 
+
+
+
+
+
+  bool isloading=true;
   var data;
   List<Data> dataa = [];
   Map maList = Map();
+  var index;
 
-
-  ShowOverlay(BuildContext context) async {
+  /*ShowOverlay(BuildContext context) async {
 
     OverlayState? overlayState = Overlay.of(context);
     OverlayEntry overlayEntry=OverlayEntry(
@@ -179,11 +190,11 @@ class _MyApState extends State<BareCode> {
     );
     overlayState?.insert(overlayEntry);
     await Future.delayed(Duration(seconds:2 ));
-    ifhhqhhqhhqhqhhqhqhqhqhhqhqhqh
+
     overlayEntry.remove();
 
 
-  }
+  }*/
 
 
 
@@ -191,9 +202,16 @@ class _MyApState extends State<BareCode> {
   @override
 
   Widget build(BuildContext context) {
+
+
+
+
+
+
     var size=MediaQuery.of(context).size;
     final double itemHeight= size.height/6.7;
     final double itemWidth= size.width;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -208,6 +226,7 @@ class _MyApState extends State<BareCode> {
               icon: const Icon(Icons.qr_code_scanner),
               onPressed: () {
                 setState(() {
+
                   scanBarcodeNormal();
 
                 });
@@ -223,6 +242,7 @@ class _MyApState extends State<BareCode> {
         if (maList.isNotEmpty) {
 
           return
+
             GridView.builder(
                 itemCount: maList.length,
                 gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
@@ -235,7 +255,7 @@ class _MyApState extends State<BareCode> {
                 itemBuilder: (_, key){
 
 
-              String index = maList.keys.elementAt(key);
+               index = maList.keys.elementAt(key);
               return Dismissible(
                 background: Container(
                   alignment: AlignmentDirectional.centerEnd,
@@ -251,7 +271,8 @@ class _MyApState extends State<BareCode> {
                 key: Key(index),
                 onDismissed: (direction) {
                   setState(() {
-                    maList.removeWhere((key, value) => key == index);
+
+                    maList.removeWhere((key, value) => key == Key);
                   });
                   // Remove the item from the data source.
                 },
@@ -286,12 +307,13 @@ class _MyApState extends State<BareCode> {
                                         height: 8,
                                       ),
 
+
                                       Text(maList[index].data.name),
                                       const SizedBox(
                                         height: 3,
                                       ),
                                       Text(
-                                        maList[index].data.name,
+                                        maList[index].data.id.toString(),
                                         style: const TextStyle(fontSize: 20),
                                       ),
                                     ])
@@ -300,8 +322,14 @@ class _MyApState extends State<BareCode> {
                                 const SizedBox(
                                   width: 50,
                                 ),
+
+
+
+
+
                                 Column(children: [
-                                  Row(children: [
+                                  Row(
+                                      children: [
                                     IconButton(
                                         icon: const Icon(Icons.delete),
                                         iconSize: 24.0,
@@ -321,7 +349,8 @@ class _MyApState extends State<BareCode> {
                                       ),
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                    child: Row(children: [
+                                    child:
+                                    Row(children: [
                                       Row(children: [
                                         IconButton(
                                           icon: const Icon(Icons.remove),
@@ -369,7 +398,10 @@ class _MyApState extends State<BareCode> {
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          setState(() {});
+          setState(() {
+
+            getprd();
+          });
           showDialog(
             context: context,
             builder: (BuildContext context) => _buildPopupDialog(context),
@@ -381,9 +413,6 @@ class _MyApState extends State<BareCode> {
       builder: EasyLoading.init(),
     );
   }
-
-
-
 
   Widget _buildPopupDialog(BuildContext context) {
     return AlertDialog(
@@ -407,9 +436,27 @@ class _MyApState extends State<BareCode> {
     );
   }
 
+  Widget progress(bool isloading){
+    if(isloading==true) {
+      return Scaffold(
+        body:
 
+        ModalProgressHUD(
+          inAsyncCall: isloading,
+          child: build(context),
+          opacity: 2.5,
+          progressIndicator: CircularProgressIndicator(),
+        ),
+
+      );
+    }
+    else return null;
+
+
+  }
 
   Future scanBarcodeNormal() async {
+
     var storage = const FlutterSecureStorage();
     var token = await storage.read(key: "token");
     String barcodeScanRes;
@@ -418,8 +465,11 @@ class _MyApState extends State<BareCode> {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
            '#ff6666', 'Cancel', true, ScanMode.BARCODE);
 
-      ShowOverlay(context);
-      EasyLoading.show(status: 'loading...');
+   //   ShowOverlay(context);
+    //  EasyLoading.show(status: 'loading...');
+
+       // isloading=true;
+
 
       final response = await http.get(
         Uri.parse(
@@ -429,11 +479,14 @@ class _MyApState extends State<BareCode> {
         },
       );
 
+      progress(isloading);
+
 
       if (response.statusCode == 200) {
 
-
-
+        setState(() {
+          isloading=false;
+        });
 
 
 
@@ -442,6 +495,13 @@ class _MyApState extends State<BareCode> {
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
         data = parsed.map<Data>((json) => Data.fromJson(json)).toList();
+        int dd= data[0].id;
+
+
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        await pref.setInt("id", dd);
+
+
 
         if (data.length > 0) {
           if (maList.containsKey(barcodeScanRes)) {
@@ -462,11 +522,12 @@ class _MyApState extends State<BareCode> {
 setState(() {
 
 });
-    EasyLoading.dismiss();
+   // EasyLoading.dismiss();
   }
 
 
-  dynamic datareposetories;
+
+
 
 
 
@@ -483,6 +544,7 @@ void _dinCounter(dynamic index) {
     if (maList[index].qty > 1) {
       maList[index].qty--;
     } else {
+
       maList.removeWhere((key, value) => key == index);
     }
   });
@@ -490,7 +552,7 @@ void _dinCounter(dynamic index) {
 }
 
 class shopinCartItem {
-  shopinCartItem({required this.data, required this.qty});
+  shopinCartItem({  this.data,   this.qty});
 
   Data data;
   int qty;

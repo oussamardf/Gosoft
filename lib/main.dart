@@ -4,6 +4,7 @@ import 'package:demo5/ui/pages/BarCode.dart';
 import 'package:demo5/ui/pages/Payment.dart';
 import 'package:demo5/ui/pages/home.dart';
 import 'package:demo5/ui/pages/login.dart';
+
 import 'package:demo5/util/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -19,11 +20,13 @@ Future<void> main() async {
   var token = prefs.getString('token');
   print(token);
   runApp(
-    MaterialApp(home: token == null ? Login2() : HOME(),
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: token == null ? MyLogin() : HOME(),
       builder: EasyLoading.init(),
       routes: {
         '/home': (_) => const HOME(),
-        '/login':(_) => Login2(),
+        '/login':(_) => MyLogin(),
 
         '/paymrnt':(_)=> payment()
       },
@@ -50,6 +53,8 @@ Future<void> main() async {
   configLoading();
 }
 
+
+
 void configLoading() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
@@ -66,6 +71,7 @@ void configLoading() {
     ..dismissOnTap = false;
 
 }
+
 
 
 

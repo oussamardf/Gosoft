@@ -1,3 +1,6 @@
+import 'package:demo5/ui/pages/cart.dart';
+import 'package:demo5/ui/pages/progrz.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,10 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Utils/custom_clipper.dart';
+import 'AddCostumer.dart';
+import 'AllSuppliers.dart';
 import 'BarCode.dart';
+import 'Payment.dart';
+import 'ShopInfo.dart';
 import 'login.dart';
+
 class HOME extends StatefulWidget {
-  const HOME({Key? key}) : super(key: key);
+  const HOME({Key key}) : super(key: key);
 
   @override
   State<HOME> createState() => _HOMEState();
@@ -18,31 +26,36 @@ class _HOMEState extends State<HOME> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        backgroundColor: Colors.white,
+
+
         appBar: AppBar(
+          backgroundColor: Colors.blue,
           actions: <Widget>[
             IconButton(
               icon: const Icon(
                 Icons.logout,
-                color: Colors.white,
+                color: Colors.blueGrey,
               ),
               onPressed: () async{
                 SharedPreferences pref=await SharedPreferences.getInstance();
                 await pref.clear();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) =>  Login2()),
+                    MaterialPageRoute(builder: (context) =>  MyLogin()),
                         (route)=> false);
                 // do something
               },
             )
           ],
-          title: const Text('Home'),
+          title: const Text('Home',
+          style: TextStyle(color: Colors.white),),
+          centerTitle: true,
         ),
 
       body:Padding(
 
-          padding: const EdgeInsets.all(1),
+          padding: const EdgeInsets.all(0),
 
           child: ListView(
               children: <Widget>[
@@ -103,7 +116,7 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  BareCode()),
+                              MaterialPageRoute(builder: (context) =>  progress()),
                             );
                               },
                             color: Colors.blue,
@@ -169,7 +182,7 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => BareCode()),
+                              MaterialPageRoute(builder: (context) => AllSuppliers()),
                             );},
                             color: Colors.blue,
                             disabledColor: Colors.black,
@@ -304,7 +317,7 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => BareCode()),
+                              MaterialPageRoute(builder: (context) => Cart()),
                             );},
                             color: Colors.blue,
                             disabledColor: Colors.black,

@@ -1,4 +1,4 @@
-import 'package:auto_route/annotations.dart';
+/*import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:demo5/router/route_guard.dart';
 import 'package:demo5/ui/pages/home.dart';
@@ -39,3 +39,5 @@ import '../ui/pages/BarCode.dart';
   ],
 )
 class $AppRouter {}
+
+ */

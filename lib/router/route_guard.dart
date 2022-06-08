@@ -1,4 +1,4 @@
-import 'package:auto_route/auto_route.dart';
+/*import 'package:auto_route/auto_route.dart';
 import 'package:demo5/ui/pages/login.dart';
 
 import '../util/auth_service.dart';
@@ -28,3 +28,4 @@ class RouteGuard extends AutoRedirectGuard {
     );*/
   }
 }
+*/

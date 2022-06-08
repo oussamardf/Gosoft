@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.demo5">
    <application
-        android:label="demo5"
+        android:label="GoSoft"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
