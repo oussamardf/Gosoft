@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import 'AllCostumers.dart';
 import 'OrderHistory.dart';
 
 class AddCostumer extends StatelessWidget {
@@ -28,95 +29,98 @@ class AddCostumer extends StatelessWidget {
             //child: const Text('Go back!'),
             //),
 
-            child: Column(
+            child: ListView(
+                children: <Widget>[ Column(
 
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const Text('Customer Name', textAlign: TextAlign.left),
-                const SizedBox(
-                  width: 25,
-                  height: 10,
-                ),
-
-                TextField(
-                  cursorColor: Colors.blue,
-                  decoration: const InputDecoration(
-                      hintText: 'Customer Name',
-                      contentPadding: EdgeInsets.all(10),
-                      border: OutlineInputBorder(
-                      )
-
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const Text('Customer Name', textAlign: TextAlign.left),
+                  const SizedBox(
+                    width: 25,
+                    height: 10,
                   ),
-                ),
-                const Text('Customer Cell', textAlign: TextAlign.left),
-                const SizedBox(
-                  width: 25,
-                  height: 10,
-                ),
-                const TextField(
-                  cursorColor: Colors.blue,
-                  decoration: InputDecoration(
-                      hintText: 'Customer Cell',
-                      contentPadding: EdgeInsets.all(10),
-                      border: OutlineInputBorder(
-                      )
 
+                  TextField(
+                    cursorColor: Colors.blue,
+                    decoration: const InputDecoration(
+                        hintText: 'Customer Name',
+                        contentPadding: EdgeInsets.all(10),
+                        border: OutlineInputBorder(
+                        )
+
+                    ),
                   ),
-                ),
-                const Text('Customer Email', textAlign: TextAlign.left),
-                const SizedBox(
-                  width: 25,
-                  height: 10,
-                ),
-                const TextField(
-                  cursorColor: Colors.blue,
-                  decoration: InputDecoration(
-                      hintText: 'Customer Email',
-                      contentPadding: EdgeInsets.all(10),
-                      border: OutlineInputBorder(
-                      )
-
+                  const Text('Customer Cell', textAlign: TextAlign.left),
+                  const SizedBox(
+                    width: 25,
+                    height: 10,
                   ),
-                ),
-                const Text('Customer Address', textAlign: TextAlign.left),
-                const SizedBox(
-                  width: 25,
-                  height: 10,
-                ),
-                const TextField(
-                  minLines: 10,
-                  maxLines: 20,
-                  cursorColor: Colors.blue,
-                  decoration: InputDecoration(
-                      hintText: 'Coutomer Address',
-                      contentPadding: EdgeInsets.all(10),
-                      border: OutlineInputBorder(
-                      )
+                  const TextField(
+                    cursorColor: Colors.blue,
+                    decoration: InputDecoration(
+                        hintText: 'Customer Cell',
+                        contentPadding: EdgeInsets.all(10),
+                        border: OutlineInputBorder(
+                        )
 
+                    ),
                   ),
-                ),
-                TextButton(
-
-                  child: const Text("Add Customer"),
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                    backgroundColor: Colors.blue,
-                    side: const BorderSide(color: Colors.white, width: 1),
-                    elevation: 20,
-                    minimumSize: const Size(100, 50),
-                    shadowColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-
+                  const Text('Customer Email', textAlign: TextAlign.left),
+                  const SizedBox(
+                    width: 25,
+                    height: 10,
                   ),
-                  onPressed:() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OrderHistory()),
-                    );
+                  const TextField(
+                    cursorColor: Colors.blue,
+                    decoration: InputDecoration(
+                        hintText: 'Customer Email',
+                        contentPadding: EdgeInsets.all(10),
+                        border: OutlineInputBorder(
+                        )
 
-                  },
-                )
-              ],
+                    ),
+                  ),
+                  const Text('Customer Address', textAlign: TextAlign.left),
+                  const SizedBox(
+                    width: 25,
+                    height: 10,
+                  ),
+                  const TextField(
+                    minLines: 10,
+                    maxLines: 20,
+                    cursorColor: Colors.blue,
+                    decoration: InputDecoration(
+                        hintText: 'Coutomer Address',
+                        contentPadding: EdgeInsets.all(10),
+                        border: OutlineInputBorder(
+                        )
+
+                    ),
+                  ),
+                  TextButton(
+
+                    child: const Text("Add Customer"),
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      side: const BorderSide(color: Colors.white, width: 1),
+                      elevation: 20,
+                      minimumSize: const Size(100, 50),
+                      shadowColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+
+                    ),
+                    onPressed:() {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AllCostumers()),
+                      );
+
+                    },
+                  )
+                ],
+              ),
+            ]
             ),
           ),
 

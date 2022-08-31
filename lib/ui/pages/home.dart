@@ -1,18 +1,15 @@
 import 'package:demo5/ui/pages/cart.dart';
 import 'package:demo5/ui/pages/progrz.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../Utils/custom_clipper.dart';
 import 'AddCostumer.dart';
 import 'AllSuppliers.dart';
 import 'BarCode.dart';
-import 'Payment.dart';
-import 'ShopInfo.dart';
+import 'OrderHistory.dart';
 import 'login.dart';
 
 class HOME extends StatefulWidget {
@@ -26,7 +23,8 @@ class _HOMEState extends State<HOME> {
 
   @override
   Widget build(BuildContext context) {
-
+ var width=MediaQuery.of(context).size.width;
+var height =MediaQuery.of(context).size.height;
     return Scaffold(
 
 
@@ -42,7 +40,7 @@ class _HOMEState extends State<HOME> {
                 SharedPreferences pref=await SharedPreferences.getInstance();
                 await pref.clear();
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) =>  MyLogin()),
+                    MaterialPageRoute(builder: (context) =>  const MyLogin()),
                         (route)=> false);
                 // do something
               },
@@ -99,13 +97,14 @@ class _HOMEState extends State<HOME> {
 
                 Row(
                   children: [
-                    const SizedBox(width: 10,height: 120),
+                    //Spacer(),
+                   // SizedBox(width: width*0.01,height: height*0.2),
                     Column(
 
                       children: [
-                        SizedBox(
-                          width: 170.0,
-                          height: 175.0,
+                        Container(
+                          width: width*0.44,
+                          height: height*0.24,
 
                           // height: double.infinity,
                           child:
@@ -116,7 +115,7 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>  progress()),
+                              MaterialPageRoute(builder: (context) =>   AddCostumer()),
                             );
                               },
                             color: Colors.blue,
@@ -124,22 +123,23 @@ class _HOMEState extends State<HOME> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children:  <Widget>[
-                                const SizedBox(height: 7,),
+                                Spacer(),
+                                // SizedBox(height: 7,),
                                 const Text(
                                   'CUSTMERS',
                                   style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ),
                                 ),
 
                                 Container(
 
-                                    width: double.infinity,
-                                  alignment: Alignment.center,
-                                    margin: const EdgeInsets.all(22),
-                                  padding: const EdgeInsets.all(13),
+                                    width: width*0.24,
+                              //    alignment: Alignment.center,
+                                    margin: const EdgeInsets.only(top: 25),
+                                  padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white,
@@ -165,13 +165,14 @@ class _HOMEState extends State<HOME> {
                         )
                       ],
                     ),
-                    const SizedBox(width: 40,height: 200),
+Spacer(),
+                 //   SizedBox(width: width*0.1,height: height*0.3),
                     Column(
 
                       children: [
-                        SizedBox(
-                          width: 170.0,
-                          height: 175.0,
+                        Container(
+                          width: width*0.44,
+                          height: height*0.24,
 
                           // height: double.infinity,
                           child:
@@ -182,29 +183,30 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => AllSuppliers()),
+                              MaterialPageRoute(builder: (context) => const AllSuppliers()),
                             );},
                             color: Colors.blue,
                             disabledColor: Colors.black,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children:  <Widget>[
-                                const SizedBox(height: 7,),
+                              Spacer(),
+                                // const SizedBox(height: 7,),
                                 const Text(
                                   'SUPPLIERS',
                                   style: TextStyle(
                                     fontSize: 26,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ),
                                 ),
 
                                 Container(
 
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsets.all(22),
-                                  padding: const EdgeInsets.all(13),
+                                  width: width*0.24,
+                                  //    alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(top: 25),
+                                  padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white,
@@ -228,20 +230,23 @@ class _HOMEState extends State<HOME> {
                           ),
 
                         )
+
                       ],
                     ),
 
                   ],
                 ),
+SizedBox(height: height*0.04,),
                 Row(
                   children: [
-                    SizedBox(width: 10,height: 200),
+
+                  //  const SizedBox(width: 10,height: 200),
                     Column(
 
                       children: [
-                        SizedBox(
-                          width: 170.0,
-                          height: 175.0,
+                        Container(
+                          width: width*0.44,
+                          height: height*0.24,
 
                           // height: double.infinity,
                           child:
@@ -252,29 +257,29 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => BareCode()),
+                              MaterialPageRoute(builder: (context) =>  OrderHistory()),
                             );},
                             color: Colors.blue,
                             disabledColor: Colors.black,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children:  <Widget>[
-                                const SizedBox(height: 7,),
+                               // const SizedBox(height: 7,),
+                                Spacer(),
                                 const Text(
                                   'PRODUCTS',
                                   style: TextStyle(
                                     fontSize: 26,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ),
                                 ),
-
                                 Container(
 
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsets.all(22),
-                                  padding: const EdgeInsets.all(13),
+                                  width: width*0.24,
+                                  //    alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(top: 25),
+                                  padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white,
@@ -300,13 +305,14 @@ class _HOMEState extends State<HOME> {
                         )
                       ],
                     ),
-                    SizedBox(width: 40,height: 190),
+                   // const SizedBox(width: 40,height: 190),
+                    Spacer(),
                     Column(
 
                       children: [
-                        SizedBox(
-                          width: 170.0,
-                          height: 175.0,
+                        Container(
+                          width: width*0.44,
+                          height: height*0.24,
 
                           // height: double.infinity,
                           child:
@@ -317,29 +323,29 @@ class _HOMEState extends State<HOME> {
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Cart()),
+                              MaterialPageRoute(builder: (context) => const Cart()),
                             );},
                             color: Colors.blue,
                             disabledColor: Colors.black,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children:  <Widget>[
-                                const SizedBox(height: 7,),
+                             Spacer(),
                                 const Text(
                                   'POS',
                                   style: TextStyle(
                                     fontSize: 26,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w700,
                                     color: Colors.white,
                                   ),
                                 ),
 
                                 Container(
 
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  margin: const EdgeInsets.all(22),
-                                  padding: const EdgeInsets.all(13),
+                                  width: width*0.24,
+                                  //    alignment: Alignment.center,
+                                  margin: const EdgeInsets.only(top: 25),
+                                  padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(50),
                                       color: Colors.white,

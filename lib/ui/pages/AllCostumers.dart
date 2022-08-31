@@ -25,7 +25,7 @@ class AllCostumers extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ShopInfo()),
+              MaterialPageRoute(builder: (context) => const ShopInfo()),
             );
             // Add your onPressed code here!
           },
@@ -50,7 +50,7 @@ class AllCostumers extends StatelessWidget {
                               onPressed: (() {
 
                               }),
-                              icon: Icon(Icons.search),
+                              icon: const Icon(Icons.search),
                             ),
                           ),
                         ),
@@ -70,7 +70,7 @@ class AllCostumers extends StatelessWidget {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/customer.png',
                                 height:50 ,
@@ -79,7 +79,7 @@ class AllCostumers extends StatelessWidget {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -120,7 +120,7 @@ class AllCostumers extends StatelessWidget {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [
@@ -200,7 +200,7 @@ class AllCostumers extends StatelessWidget {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/customer.png',
                                 height:50 ,
@@ -209,7 +209,7 @@ class AllCostumers extends StatelessWidget {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -251,7 +251,7 @@ class AllCostumers extends StatelessWidget {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [
@@ -331,7 +331,7 @@ class AllCostumers extends StatelessWidget {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/customer.png',
                                 height:50 ,
@@ -340,7 +340,7 @@ class AllCostumers extends StatelessWidget {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -382,7 +382,7 @@ class AllCostumers extends StatelessWidget {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [
@@ -462,7 +462,7 @@ class AllCostumers extends StatelessWidget {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/customer.png',
                                 height:50 ,
@@ -471,7 +471,7 @@ class AllCostumers extends StatelessWidget {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -513,7 +513,7 @@ class AllCostumers extends StatelessWidget {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [

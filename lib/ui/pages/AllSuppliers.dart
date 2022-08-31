@@ -1,6 +1,7 @@
 
-import 'package:demo5/ui/pages/AllCostumers.dart';
 import 'package:flutter/material.dart';
+
+import 'EditSuppliers.dart';
 
 class AllSuppliers extends StatefulWidget {
   const AllSuppliers({Key key}) : super(key: key);
@@ -43,9 +44,14 @@ class _AllSuppliersState extends State<AllSuppliers> {
                             hintText: '   Search Here ...',
                             suffixIcon: IconButton(
                               onPressed: (() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => EditSuppliers()),
+                                );
+
 
                               }),
-                              icon: Icon(Icons.search),
+                              icon: const Icon(Icons.search),
                             ),
                           ),
                         ),
@@ -65,7 +71,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/supplier.png',
                                 height:50 ,
@@ -74,7 +80,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -89,7 +95,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                                               Column(
                                                   children:
 
-                                                  [
+                                                  const [
                                                     SizedBox(height: 8,),
                                                     Text( "Pepsi",
                                                         style: TextStyle(color: Colors.blue,fontSize: 20)),
@@ -118,7 +124,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [
@@ -198,7 +204,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/supplier.png',
                                 height:50 ,
@@ -207,7 +213,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -222,7 +228,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                                               Column(
                                                   children:
 
-                                                  [
+                                                  const [
                                                     SizedBox(height: 8,),
                                                     Text( "Adidas",
                                                         style: TextStyle(color: Colors.blue)),
@@ -251,7 +257,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [
@@ -331,7 +337,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/supplier.png',
                                 height:50 ,
@@ -340,7 +346,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Center(
                             child: Container(
                               alignment: Alignment.topLeft,
@@ -355,7 +361,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                                               Column(
                                                   children:
 
-                                                  [
+                                                  const [
                                                     SizedBox(height: 8,),
                                                     Text( "Evaly",
                                                         style: TextStyle(color: Colors.blue)),
@@ -384,7 +390,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                                       ]
                                   ),
-                                  SizedBox(width: 150,),
+                                  const SizedBox(width: 150,),
 
                                   Column(
                                       children: [
@@ -464,7 +470,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                         children: [
                           Center(
                             child: Padding(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
 
                               child:Image.asset('assets/images/supplier.png',
                                 height:50 ,
@@ -473,7 +479,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                             ),
                           ),
-                          SizedBox(width: 1,),
+                          const SizedBox(width: 1,),
                           Expanded(
                             child: Center(
                               child: Container(
@@ -489,7 +495,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
                                                 Column(
                                                     children:
 
-                                                    [
+                                                    const [
                                                       SizedBox(height: 8,),
                                                       Text( "jon",
                                                           style: TextStyle(color: Colors.blue)),
@@ -518,7 +524,7 @@ class _AllSuppliersState extends State<AllSuppliers> {
 
                                         ]
                                     ),
-                                    SizedBox(width: 150,),
+                                    const SizedBox(width: 150,),
 
                                     Column(
                                         children: [

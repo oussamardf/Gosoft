@@ -8,7 +8,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/classe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -33,7 +32,7 @@ class _MyApState extends State<BareCode> {
   bool isloading=true;
   var data;
   List<Data> dataa = [];
-  Map maList = Map();
+  Map maList = {};
   var index;
 
   /*ShowOverlay(BuildContext context) async {
@@ -445,12 +444,14 @@ class _MyApState extends State<BareCode> {
           inAsyncCall: isloading,
           child: build(context),
           opacity: 2.5,
-          progressIndicator: CircularProgressIndicator(),
+          progressIndicator: const CircularProgressIndicator(),
         ),
 
       );
     }
-    else return null;
+    else {
+      return null;
+    }
 
 
   }

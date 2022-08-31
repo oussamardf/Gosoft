@@ -1,20 +1,36 @@
 
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../models/classe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
+import 'home.dart';
+
+
+
+
+
+
+var data;
+
+
+List<Data> dataa = [] ;
+Map maList = {};
+var index;
+var index2;
+var map;
 
 class Cart extends StatefulWidget {
   const Cart({Key key}) : super(key: key);
@@ -27,255 +43,9 @@ class _MyApState extends State<Cart> {
 
 
 
+List<Map<String, dynamic>> persons =  [];
 
 
-
-  bool isloading=true;
-  var data;
-  List<Data> dataa = [] ;
-  Map maList = Map();
-  var index;
-  var index2;
-
-  ShowOverlay(BuildContext context) async {
-    var size=MediaQuery.of(context).size;
-    final double itemHeight= size.height/6.7;
-    final double itemWidth= size.width;
-
-
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry=OverlayEntry(
-
-        builder: (context)=>
-
-            MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    home: Scaffold(
-
-                      appBar: AppBar(
-                        backgroundColor: Colors.blue,
-                        elevation: 0,
-                        centerTitle: true,
-                        title: Text(
-                          "loading..",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        leading: IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-
-                          },
-                        ),
-                        iconTheme: IconThemeData(color: Colors.white),
-
-                        actions: [
-                          IconButton(
-                              icon: const Icon(Icons.qr_code_scanner),
-                              onPressed: () {
-                                setState(() {
-
-
-                                  /*   progress.show();
-                      Future.delayed(Duration(seconds: 4), () {
-
-                        progress.dismiss();
-                      });*/
-
-
-                                });
-                              }),
-                        ],
-
-
-
-
-                      ),
-
-                      // my card
-                      body: Builder(builder: (context) {
-
-
-
-
-
-
-                        if (maList.isNotEmpty) {
-
-                          return
-
-                            Stack(
-                              children: [
-                                Container(),
-                                Positioned.fill(
-                                    child:
-                                    GridView.builder(
-                                      itemCount: maList.length,
-                                      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 1,
-                                        childAspectRatio: (itemWidth / itemHeight),
-
-
-                                      ),
-                                      padding: EdgeInsets.all(8),
-                                      itemBuilder: (context, key){
-
-
-
-                                        index = maList.keys.elementAt(key);
-
-                                        return
-                                          Card(
-
-                                            elevation: 15,
-                                            child: Container(
-
-                                              height: 110,
-                                              padding: const EdgeInsets.all(8.0),
-                                              width: 100,
-                                              margin: EdgeInsets.all(4.0),
-                                              child: Row(
-                                                children: [
-                                                  Padding(
-                                                      padding: const EdgeInsets.only(left: 0,right: 15),
-                                                      child: CircleAvatar(
-                                                        backgroundImage: NetworkImage(
-                                                            (maList[index].data.images.isNotEmpty)
-                                                                ? maList[index].data.images[0].src
-                                                                : ""),
-
-                                                        radius: 30,
-                                                      )
-                                                  ),
-                                                  SizedBox(width: 16),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(right: 16.0),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            maList[index].data.name,
-                                                            maxLines: 2,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                          Spacer(),
-                                                          Text(
-                                                            "\$${  maList[index].data.price.toString()}",
-                                                            style: TextStyle(
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-
-
-
-
-                                                  Column(
-                                                    children: [
-
-                                                      Row(
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Container(
-                                                                color: Colors.grey[200],
-                                                                child: InkWell(
-                                                                  child: Icon(Icons.remove),
-                                                                  onTap: (){
-                                                                    //action code when clicked
-
-                                                                  },
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                padding: EdgeInsets.all(8.0),
-                                                                child:  Text(
-                                                                  maList[index].qty.toString(),
-
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                color: Colors.grey[200],
-                                                                child: InkWell(
-                                                                  child: Icon(Icons.add),
-                                                                  onTap: (){
-                                                                    //action code when clicked
-
-                                                                  },
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-
-                                                        ],
-                                                      ),
-                                                      Spacer(),
-                                                      Row(
-                                                        children: [
-
-                                                          Container(
-                                                            child: IconButton(
-                                                                icon: const Icon(Icons.delete),
-                                                                iconSize: 24.0,
-                                                                color: Colors.green,
-
-                                                                onPressed: () {
-
-                                                                }),
-                                                          ),
-
-
-                                                        ],
-                                                      ),
-
-
-
-
-                                                    ],
-                                                  ),
-
-                                                ],
-                                              ),
-                                            ),
-                                          );
-
-
-                                      },
-                                    )
-                                ),
-                              ],
-
-                            );
-                        } else {
-                          return const Center(child: CircularProgressIndicator());
-                        }
-                      }),
-
-                      floatingActionButton: FloatingActionButton.extended(
-                        onPressed: () {
-
-                        },
-                        backgroundColor: Colors.blue,
-                        label: const Text("confirm"),
-                      ),
-                    ),
-                    builder: EasyLoading.init(),
-                  ),
-
-    );
-    overlayState?.insert(overlayEntry);
-    await Future.delayed(Duration(seconds:5 ));
-
-    overlayEntry.remove();
-
-
-  }
 
 
 
@@ -287,14 +57,14 @@ class _MyApState extends State<Cart> {
 
 
 
-   // final progress = ProgressHUD.of(context);
+
+
     var size=MediaQuery.of(context).size;
     final double itemHeight= size.height/6.7;
     final double itemWidth= size.width;
 
     return
-      ProgressHUD(
-        child: Builder(
+       Builder(
         builder: (context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -309,7 +79,10 @@ class _MyApState extends State<Cart> {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.of(context).pop();
+                maList.remove;
+
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                    HOME()), (Route<dynamic> route) => false);
               },
             ),
             iconTheme: IconThemeData(color: Colors.white),
@@ -318,17 +91,25 @@ class _MyApState extends State<Cart> {
               IconButton(
                   icon: const Icon(Icons.qr_code_scanner),
                   onPressed: () {
+
+
+
                     setState(() {
+
                       scanBarcodeNormal();
 
-                   /*   progress.show();
-                      Future.delayed(Duration(seconds: 4), () {
-
-                        progress.dismiss();
-                      });*/
 
 
                     });
+
+
+
+
+
+
+
+
+
                   }),
             ],
           ),
@@ -367,16 +148,33 @@ class _MyApState extends State<Cart> {
 
                         key: UniqueKey(),
                         direction: DismissDirection.endToStart,
-                        onDismissed: (DismissDirection direction) {
-                          setState(() async {
-                       //     maList.remove(key);
+                        onDismissed: (DismissDirection direction) async {
+
+
+
+                          setState(() {
+
                              index2= maList.keys.elementAt(key);
+                             int r=maList[index2].data.id;
+
 
                             maList.removeWhere((key, value) => key == index2);
-                            //maList[index].data.removeAt(index);
-                             SharedPreferences pref = await SharedPreferences.getInstance();
-                             pref.setInt("id", 0);
+                             showDialog(
+                               context: context,
+                               builder: (BuildContext context) => removeDialog(context),
+                             );
+                             persons.removeWhere((element) => element["product_id"] == r);
+
+                             print ('my persons');
+                             print(persons);
+
+
+
+
+
+
                           });
+
                           // Remove the item from the data source.
                         },
                         child:
@@ -403,19 +201,22 @@ class _MyApState extends State<Cart> {
                               ),
                               SizedBox(width: 16),
                               Expanded(
+
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 16.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        maList[index].data.name,
+
+                                         maList[index].data.name,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+
                                     Spacer(),
                                       Text(
                                         "\$${  maList[index].data.price.toString()}",
@@ -444,7 +245,7 @@ class _MyApState extends State<Cart> {
                                                     child: Icon(Icons.remove),
                                                 onTap: (){
                                                   //action code when clicked
-                                                  _dinCounter(index);
+                                                  _dinCounter(key);
                                                 },
                                                 ),
                                               ),
@@ -460,8 +261,13 @@ class _MyApState extends State<Cart> {
                                                 child: InkWell(
                                                   child: Icon(Icons.add),
                                                   onTap: (){
+                                                    index2= maList.keys.elementAt(key);
                                                     //action code when clicked
-                                                    _incrementCounter(index);
+                                                   // _incrementCounter(index2);
+                                                    setState((){
+
+                                                    });
+
                                                   },
                                                 ),
                                               ),
@@ -481,13 +287,25 @@ class _MyApState extends State<Cart> {
                                             color: Colors.green,
 
                                             onPressed: () {
-                                              setState(()async {
+                                              setState(() {
+
                                                  index2= maList.keys.elementAt(key);
 
+                                                 int r=maList[index2].data.id;
+
                                                 maList.removeWhere((key, value) => key == index2);
-                                                 SharedPreferences pref = await SharedPreferences.getInstance();
-                                                 await pref.setInt('id', 0);
+                                                 persons.removeWhere((element) => element["product_id"] == r);
+                                                 print('my person');
+                                                 print(persons);
+
+                                                /* SharedPreferences pref = await SharedPreferences.getInstance();
+                                                 await pref.setInt('id', 0);*/
                                               });
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) => removeDialog(context),
+                                              );
+
                                             }),
                                       ),
 
@@ -522,7 +340,7 @@ class _MyApState extends State<Cart> {
             onPressed: () {
               setState(() {
 
-                getprd();
+                Checkout();
               });
               showDialog(
                 context: context,
@@ -533,9 +351,21 @@ class _MyApState extends State<Cart> {
             label: const Text("confirm"),
           ),
         ),
-        builder: EasyLoading.init(),
+
       ),
-        )
+        );
+
+  }
+
+  Widget removeDialog(BuildContext context){
+    return AlertDialog(
+      title: Text("Delete"),
+      titleTextStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 20),
+      backgroundColor: Colors.red,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))
+      ),
+      content: Text("Order deleted successfully"),
     );
   }
 
@@ -564,13 +394,13 @@ class _MyApState extends State<Cart> {
 
 
 
-  Future getprd() async {
+  Future Checkout() async {
     SharedPreferences pref2 = await SharedPreferences.getInstance();
-   var token2= await pref2.getString("token");
+   var token2= pref2.getString("token");
     SharedPreferences pref = await SharedPreferences.getInstance();
-    int ous= await pref.getInt("id");
-    print ('the id');
-    print(ous);
+
+
+
 
     try {
 
@@ -580,16 +410,14 @@ class _MyApState extends State<Cart> {
             'Content-Type': 'application/json; charset=UTF-8',
             HttpHeaders.authorizationHeader: "Bearer $token2"
           },
+
         body:  jsonEncode(<String, dynamic>
 
         {
 
-          "line_items": [
-            {
-              "product_id": ous
+          "line_items":
+            persons
 
-            }
-          ]
 
         }
         )
@@ -614,78 +442,328 @@ class _MyApState extends State<Cart> {
     }
   }
 
-  Future scanBarcodeNormal() async {
+Future scanBarcodeNormal() async {
+  var size=MediaQuery.of(context).size;
+  final double itemHeight= size.height/6.7;
+  final double itemWidth= size.width;
 
-    SharedPreferences pref = await SharedPreferences.getInstance();
-   var token= pref.getString("token");
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  var token= pref.getString("token");
+  String barcodeScanRes;
 
 
-      // EasyLoading.show(status: 'loading...');
+  // Platform messages may fail, so we use a try/catch PlatformException.
+ // ShowOverlay(context);
+  try {
+    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE);
 
-      // isloading=true;
 
-      ShowOverlay(context);
-      final response = await http.get(
-        Uri.parse(
-            'https://qlf1.gosoft.ma/index.php/wp-json/wc/v3/products?per_page=100&sku=$barcodeScanRes'),
-        headers: <String, String>{
-          HttpHeaders.authorizationHeader: "Bearer $token"
-        },
+    // EasyLoading.show(status: 'loading...');
+
+
+
+
+      OverlayState overlayState = Overlay.of(context);
+
+      OverlayEntry overlayEntry = OverlayEntry(
+
+        builder: (context) =>
+
+
+            MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+
+                appBar: AppBar(
+                  backgroundColor: Colors.blue,
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Text(
+                    "loading..",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  leading: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+
+                    },
+                  ),
+                  iconTheme: IconThemeData(color: Colors.white),
+
+                  actions: [
+                    IconButton(
+                        icon: const Icon(Icons.qr_code_scanner),
+                        onPressed: () {
+
+                        }),
+                  ],
+
+
+                ),
+
+                // my card
+                body: Builder(builder: (context) {
+                  if (maList.isNotEmpty) {
+                    return
+
+                      Stack(
+                        children: [
+                          Container(),
+                          Positioned.fill(
+                              child:
+                              GridView.builder(
+                                itemCount: maList.length,
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  childAspectRatio: (itemWidth / itemHeight),
+
+
+                                ),
+                                padding: EdgeInsets.all(8),
+                                itemBuilder: (context, key) {
+                                  index = maList.keys.elementAt(key);
+
+                                  return
+                                    Card(
+
+                                      elevation: 15,
+                                      child: Container(
+
+                                        height: 110,
+                                        padding: const EdgeInsets.all(8.0),
+                                        width: 100,
+                                        margin: EdgeInsets.all(4.0),
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 0, right: 15),
+                                                child: CircleAvatar(
+                                                  backgroundImage: NetworkImage(
+                                                      (maList[index].data.images
+                                                          .isNotEmpty)
+                                                          ? maList[index].data
+                                                          .images[0].src
+                                                          : ""),
+
+                                                  radius: 30,
+                                                )
+                                            ),
+                                            SizedBox(width: 16),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 16.0),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    Text(
+                                                      maList[index].data.name,
+                                                      maxLines: 2,
+                                                      overflow: TextOverflow
+                                                          .ellipsis,
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight
+                                                            .bold,
+                                                      ),
+                                                    ),
+                                                    Spacer(),
+                                                    Text(
+                                                      "\$${ maList[index].data
+                                                          .price.toString()}",
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight
+                                                            .bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+
+
+                                            Column(
+                                              children: [
+
+                                                Row(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          color: Colors.grey[200],
+                                                          child: InkWell(
+                                                            child: Icon(
+                                                                Icons.remove),
+                                                            onTap: () {
+                                                              //action code when clicked
+
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          padding: EdgeInsets.all(
+                                                              8.0),
+                                                          child: Text(
+                                                            maList[index].qty
+                                                                .toString(),
+
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          color: Colors.grey[200],
+                                                          child: InkWell(
+                                                            child: Icon(
+                                                                Icons.add),
+                                                            onTap: () {
+                                                              //action code when clicked
+
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+
+                                                  ],
+                                                ),
+                                                Spacer(),
+                                                Row(
+                                                  children: [
+
+                                                    Container(
+                                                      child: IconButton(
+                                                          icon: const Icon(
+                                                              Icons.delete),
+                                                          iconSize: 24.0,
+                                                          color: Colors.green,
+
+                                                          onPressed: () {
+
+                                                          }),
+                                                    ),
+
+
+                                                  ],
+                                                ),
+
+
+                                              ],
+                                            ),
+
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                },
+                              )
+                          ),
+                        ],
+
+                      );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
+
+                floatingActionButton: FloatingActionButton.extended(
+                  onPressed: () {
+
+                  },
+                  backgroundColor: Colors.blue,
+                  label: const Text("confirm"),
+                ),
+              ),
+              builder: EasyLoading.init(),
+            ),
+
       );
-
-
-
-
-      if (response.statusCode == 200) {
-
-        setState(() {
-         // ShowOverlay(context);
-        });
+      overlayState?.insert(overlayEntry);
 
 
 
 
 
-        final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-
-        data = parsed.map<Data>((json) => Data.fromJson(json)).toList();
-        int dd= data[0].id;
-
-
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        await pref.setInt("id", dd);
-        print('the dd');
-        print (dd);
 
 
 
-        if (data.length > 0) {
-          if (maList.containsKey(barcodeScanRes)) {
-            maList[barcodeScanRes].qty++;
-          } else {
-            maList[barcodeScanRes] = shopinCartItem(data: data[0], qty: 1);
-          }
+
+
+
+
+    // ShowOverlay(context);
+
+    final response = await http.get(
+      Uri.parse(
+          'https://qlf1.gosoft.ma/index.php/wp-json/wc/v3/products?per_page=100&sku=$barcodeScanRes'),
+      headers: <String, String>{
+        HttpHeaders.authorizationHeader: "Bearer $token"
+      },
+    );
+
+
+
+
+
+    if (response.statusCode == 200) {
+
+
+
+
+      // ShowOverlay(context);
+
+      setState((){
+        overlayEntry.remove();
+      });
+
+
+
+
+
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      data = parsed.map<Data>((json) => Data.fromJson(json)).toList();
+      print(data.toString());
+      var  id= data[0].id;
+      Map<String, dynamic> map={
+        "product_id":id
+      };
+      persons.add(map);
+      print (persons);
+
+      print('my map');
+      print(map);
+
+
+
+
+
+
+
+
+      if (data.length > 0) {
+        if (maList.containsKey(barcodeScanRes)) {
+          maList[barcodeScanRes].qty++;
+        } else {
+          maList[barcodeScanRes] = shopinCartItem(data: data[0], qty: 1);
         }
-      } else {
-
-        throw Exception('Failed to load album');
       }
-    } on PlatformException {
-      EasyLoading.showError('Failed with Error');
-      barcodeScanRes = 'Failed to get platform version.';
     }
+    else {
 
-    setState(() {
+      print('Failed to load data');
+    }
+  } on PlatformException {
 
-    });
-     EasyLoading.dismiss();
+    barcodeScanRes = 'Failed to get platform version.';
   }
+
+
+
+
+
+
+}
 
 
 
@@ -702,14 +780,20 @@ class _MyApState extends State<Cart> {
     });
   }
 
-  void _dinCounter(dynamic index) {
+  void _dinCounter(dynamic key) {
+    var index2= maList.keys.elementAt(key);
+    int r=maList[index2].data.id;
     setState(() {
-      if (maList[index].qty > 1) {
-        maList[index].qty--;
+      if (maList[index2].qty > 1) {
+        maList[index2].qty--;
+        persons.removeAt(key);
+        print(persons);
       } else {
-       // var index2= maList.keys.elementAt(key);
+
 
         maList.removeWhere((key, value) => key == index2);
+        persons.removeWhere((element) => element["product_id"] == r);
+        print(persons);
       }
     });
   }
@@ -721,3 +805,4 @@ class shopinCartItem {
   Data data;
   int qty;
 }
+

@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future getprd() async {
-  var value;
+  String value;
   var storage2 = const FlutterSecureStorage();
   var token2 = await storage2.read(key: "token");
   SharedPreferences pref = await SharedPreferences.getInstance();

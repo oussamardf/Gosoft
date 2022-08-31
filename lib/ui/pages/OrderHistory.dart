@@ -1,13 +1,99 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:demo5/ui/pages/AllSuppliers.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/classe.dart';
 
 
-
-class OrderHistory extends StatelessWidget {
+class OrderHistory extends StatefulWidget {
   const OrderHistory({Key key}) : super(key: key);
 
   @override
+  State<OrderHistory> createState() => _OrderHistoryState();
+}
+
+class _OrderHistoryState extends State<OrderHistory> {
+  var data;
+
+
+  List<Data> dataa = [] ;
+  Map maList = {};
+  var index;
+  var index2;
+  var map;
+
+  void initState(){
+    super.initState();
+    setState((){
+      getprd();
+    });
+
+  }
+  Future getprd() async {
+    SharedPreferences pref2 = await SharedPreferences.getInstance();
+    var token2= pref2.getString("token");
+    print(token2);
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+
+
+
+    try {
+
+      Response response = await http.get(
+          Uri.parse('https://qlf1.gosoft.ma/index.php/wp-json/wc/v3/orders'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+             HttpHeaders.authorizationHeader: "Bearer $token2"
+          },
+      );
+
+
+      if (response.statusCode == 200) {
+        setState((){
+          data = jsonDecode(response.body.toString());
+
+        });
+        print("sku");
+        print( data[9]['line_items'][0]['sku']);
+        print( data[0]['line_items'][0]['name']);
+
+      //  var barcodeScanRes=  data[0]['line_items'][0]['sku'];
+       /* if (data.length > 0) {
+          if (maList.containsKey(barcodeScanRes)) {
+            maList[barcodeScanRes].qty++;
+          } else {
+            maList[barcodeScanRes] = shopinCartItem(data: data[0], qty: 1);
+          }
+        }*/
+
+
+        print(data[8]['id']);
+        print(data[0]['line_items'].length);
+
+      }
+      else {
+        print(response.statusCode);
+
+        print('not done');
+
+      }
+    }
+    catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var size=MediaQuery.of(context).size;
+    final double itemHeight= size.height/6.7;
+    final double itemWidth= size.width;
     debugShowCheckedModeBanner: false;
     theme: ThemeData(
       primarySwatch: Colors.blue,
@@ -24,666 +110,172 @@ class OrderHistory extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) =>AllSuppliers()),
+            MaterialPageRoute(builder: (context) =>const AllSuppliers()),
           );
           // Add your onPressed code here!
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
       ),
-      body: SingleChildScrollView(      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:  [
-            Column(
+      body:Center(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    onChanged: (text){
+                      text=text.toLowerCase();
+                      print(text);
+                      setState((){
+                     //   search(text);
+                        /* data=data.where((e){
+                            var finalname=e.name.toString().toLowerCase();
+                            return finalname.contains(text);
+                          }).toList();*/
 
-              //adding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                children : [
+                      });
+                    },
 
-
-                  TextField(
 
                     decoration: InputDecoration(
-                      hintText: '   Search Here ...',
-                      suffixIcon: IconButton(
-                        onPressed: (() {
 
-                        }),
-                        icon: const Icon(Icons.search),
-                      ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50),
+                            borderSide: BorderSide(
+                                width: 1, color: Colors.black
+                            )
+                        )
                     ),
                   ),
 
+                )
+                ),
+                IconButton(
+                    onPressed:() {
+                      setState((){
+                       // getdata();
+                        //search(query!);
+                      });
 
-                ]
+                      //   search(query!);
+                    },
+                    icon: Icon(Icons.search)
+                )
+
+              ],
             ),
-            Card(
 
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child:Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(
+            Expanded(
+                child:
+
+
+            GridView.builder(
+    itemCount:(data==null)?0:data.length,
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 1,
+    childAspectRatio: (itemWidth / itemHeight),
+
+
+    ),
+    padding: EdgeInsets.all(8),
+    itemBuilder: (context, key){
+    if(data!=null) {
+      return
+        Card(
+
+          elevation: 15,
+          child: Container(
+            height: 110,
+            padding: const EdgeInsets.all(8.0),
+            width: 100,
+            margin: EdgeInsets.all(4.0),
+            child: Row(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.only(left: 0, right: 15),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+
+                        data[key]['line_items'][0]['image']['src'],),
+
+                      radius: 30,
+
+
+                    )
+                ),
+                SizedBox(width: 16),
+                Expanded(
+
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+
+                          data[key]['line_items'][0]['name'],
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        Spacer(),
+                        Text(
+
+                          'Price: ${data[key]['line_items'][0]['total']} ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+
+                Column(
                   children: [
 
 
-                    Center(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            Column(
-                                children: [
-                                  Row(
-                                      children:
-                                      [
-
-                                        Column(
-                                            children:
-
-                                            [
-                                              const SizedBox(height: 3),
-                                              const Text( "INV820201596098193",
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.blue , fontSize: 10)),
-
-                                              const SizedBox(height:5,),
-                                              const Text(
-                                                "Walk in Customer",
-                                                style:  const TextStyle(fontSize: 11),
-                                              ),
-                                              const SizedBox(height:3,),
-
-                                              RichText(text: const TextSpan(
-                                                  text: 'PICK UP',
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.grey ,fontSize: 10), /*defining default style is optional */
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' CASH', style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-                                                  ]
-                                              )),
-                                              Text(
-                                                  "02:36 PM July 30 , 2020",
-                                                  style:  TextStyle(fontSize: 11)),
-
-
-
-                                            ]
-                                        )
-                                      ]
-                                  ),
-
-                                ]
-                            ),
-                            const SizedBox(width: 200,),
-
-                            Column(
-                                children: [
-
-
-                                  Row(
-                                      children:
-                                      [
-                                        IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            alignment:Alignment.topRight,
-                                            iconSize: 24.0,
-                                            color: Colors.red,
-                                            onPressed: (){
-
-                                            }
-                                        ),
-
-
-                                      ]
-                                  ),
-
-
-
-
-
-                                ]
-                            )
-
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
+                 //   Spacer(),
 
 
 
                   ],
                 ),
-              ),
-              elevation: 10,
-              margin: const EdgeInsets.all(10),
+
+              ],
             ),
-            Card(
+          ),
+        );
+    }
 
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child:Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(
-                  children: [
+    else{
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    },
+    )
 
-                    const SizedBox(width: 5,),
-                    Center(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            Column(
-                                children: [
-                                  Row(
-                                      children:
-                                      [
 
-                                        Column(
-                                            children:
+    ),
 
-                                            [
-                                              const SizedBox(height: 8,),
-                                              const Text( "INV820201596098531",
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.blue , fontSize: 10)),
 
-                                              const SizedBox(height:5,),
-                                              const Text(
-                                                "Jhon Due",
-                                                style:  const TextStyle(fontSize: 11),
-                                              ),
-                                              const SizedBox(height:5,),
-                                              RichText(text: const TextSpan(
-                                                  text: 'HOME DELIVERY',
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.grey,fontSize: 10 ), /*defining default style is optional */
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' CASH', style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-                                                  ]
-                                              )),
-                                              const Text(
-                                                  "12:33 PM July 30 , 2020",
-                                                  style:  TextStyle(fontSize: 11)),
 
-
-
-                                            ]
-                                        )
-                                      ]
-                                  ),
-
-                                ]
-                            ),
-                            const SizedBox(width: 200,),
-
-                            Column(
-                                children: [
-
-
-                                  Row(
-                                      children:
-                                      [
-                                        IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            alignment:Alignment.topRight,
-                                            iconSize: 24.0,
-                                            color: Colors.red,
-                                            onPressed: (){
-
-                                            }
-                                        ),
-
-
-                                      ]
-                                  ),
-
-
-
-
-
-                                ]
-                            )
-
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-
-                  ],
-                ),
-              ),
-              elevation: 10,
-              margin: const EdgeInsets.all(10),
-            ),
-            Card(
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child:Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(
-                  children: [
-
-                    const SizedBox(width: 5,),
-                    Center(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            Column(
-                                children: [
-                                  Row(
-                                      children:
-                                      [
-
-                                        Column(
-                                            children:
-
-                                            [
-                                              const SizedBox(height: 8,),
-                                              const Text( "INV820201596060576",
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-
-                                              const SizedBox(height:5,),
-                                              const Text(
-                                                "Walk in Customer",
-                                                style:  const TextStyle(fontSize: 11),
-                                              ),
-                                              const SizedBox(height:5,),
-                                              RichText(text: const TextSpan(
-                                                  text: 'PICK UP',
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.grey ,fontSize: 10), /*defining default style is optional */
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' CASH', style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-                                                  ]
-                                              )),
-                                              const Text(
-                                                  "04:52 PM July 26 , 2020",
-                                                  style:  const TextStyle(fontSize: 11)),
-
-
-
-                                            ]
-                                        )
-                                      ]
-                                  ),
-
-                                ]
-                            ),
-                            const SizedBox(width: 200,),
-
-                            Column(
-                                children: [
-
-
-                                  Row(
-                                      children:
-                                      [
-                                        IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            alignment:Alignment.topRight,
-                                            iconSize: 24.0,
-                                            color: Colors.red,
-                                            onPressed: (){
-
-                                            }
-                                        ),
-
-
-                                      ]
-                                  ),
-
-
-
-
-
-                                ]
-                            )
-
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-
-                  ],
-                ),
-              ),
-              elevation: 10,
-              margin: const EdgeInsets.all(10),
-            ),
-            Card(
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child:Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(
-                  children: [
-
-                    const SizedBox(width: 5,),
-                    Center(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            Column(
-                                children: [
-                                  Row(
-                                      children:
-                                      [
-
-                                        Column(
-                                            children:
-
-                                            [
-                                              const SizedBox(height: 8,),
-                                              const Text( "INV820201596096848",
-                                                  style: const TextStyle(color: Colors.white , backgroundColor: Colors.blue,fontSize: 10)),
-
-                                              const SizedBox(height:5,),
-                                              const Text(
-                                                "Noor Mohammed Anik",
-                                                style:  TextStyle(fontSize: 11),
-                                              ),
-                                              const SizedBox(height:5,),
-                                              RichText(text: const TextSpan(
-                                                  text: 'TABLE BOOKING',
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.grey,fontSize: 10 ), /*defining default style is optional */
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' CARD', style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-                                                  ]
-                                              )),
-                                              const Text(
-                                                  "07:20 PM July 24 , 2020",
-                                                  style:  TextStyle(fontSize: 11)),
-
-
-
-                                            ]
-                                        )
-                                      ]
-                                  ),
-
-                                ]
-                            ),
-                            const SizedBox(width: 200,),
-
-                            Column(
-                                children: [
-
-
-                                  Row(
-                                      children:
-                                      [
-                                        IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            alignment:Alignment.topRight,
-                                            iconSize: 24.0,
-                                            color: Colors.red,
-                                            onPressed: (){
-
-                                            }
-                                        ),
-
-
-                                      ]
-                                  ),
-
-
-
-
-
-                                ]
-                            )
-
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-
-                  ],
-                ),
-              ),
-              elevation: 10,
-              margin: const EdgeInsets.all(10),
-            ),
-            Card(
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child:Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(
-                  children: [
-
-                    const SizedBox(width: 5,),
-                    Center(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            Column(
-                                children: [
-                                  Row(
-                                      children:
-                                      [
-
-                                        Column(
-                                            children:
-
-                                            [
-                                              const SizedBox(height: 8,),
-                                              const Text( "INV820201596095220",
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.blue,fontSize: 10)),
-
-                                              const SizedBox(height:5,),
-                                              const Text(
-                                                "Walk in Customer",
-                                                style:  const TextStyle(fontSize: 11),
-                                              ),
-                                              const SizedBox(height:5,),
-                                              RichText(text: const TextSpan(
-                                                  text: 'HOME DEKIVERY',
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.grey ,fontSize: 10), /*defining default style is optional */
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' CASH', style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-                                                  ]
-                                              )),
-                                              const Text(
-                                                  "06:54 PM July 24 , 2020",
-                                                  style:  const TextStyle(fontSize: 11)),
-
-
-
-                                            ]
-                                        )
-                                      ]
-                                  ),
-
-                                ]
-                            ),
-                            const SizedBox(width: 200,),
-
-                            Column(
-                                children: [
-
-
-                                  Row(
-                                      children:
-                                      [
-                                        IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            alignment:Alignment.topRight,
-                                            iconSize: 24.0,
-                                            color: Colors.red,
-                                            onPressed: (){
-
-                                            }
-                                        ),
-
-
-                                      ]
-                                  ),
-
-
-
-
-
-                                ]
-                            )
-
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-
-                  ],
-                ),
-              ),
-              elevation: 10,
-              margin: const EdgeInsets.all(10),
-            ),
-            Card(
-
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child:Container(
-                height: 70,
-                color: Colors.white,
-                child: Row(
-                  children: [
-
-                    const SizedBox(width: 5,),
-                    Center(
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Row(
-                          children: [
-                            Column(
-                                children: [
-                                  Row(
-                                      children:
-                                      [
-
-                                        Column(
-                                            children:
-
-                                            [
-                                              const SizedBox(height: 8,),
-                                              const Text( "INV820201596097829",
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.blue,fontSize: 10)),
-
-                                              const SizedBox(height:5,),
-                                              const Text(
-                                                "Walk in Customer",
-                                                style:  const TextStyle(fontSize: 11),
-                                              ),
-                                              const SizedBox(height:5,),
-                                              RichText(text: const TextSpan(
-                                                  text: 'PICK UP',
-                                                  style: TextStyle(color: Colors.white , backgroundColor: Colors.grey,fontSize: 10 ), /*defining default style is optional */
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                        text: ' CASH', style: TextStyle(color: Colors.white , backgroundColor: Colors.blue ,fontSize: 10)),
-                                                  ]
-                                              )),
-                                              const Text(
-                                                  "06:50 PM July 15 , 2020",
-                                                  style:  TextStyle(fontSize: 11)),
-
-
-
-                                            ]
-                                        )
-                                      ]
-                                  ),
-
-                                ]
-                            ),
-                            const SizedBox(width: 200,),
-
-                            Column(
-                                children: [
-
-
-                                  Row(
-                                      children:
-                                      [
-                                        IconButton(
-                                            icon: const Icon(Icons.delete),
-                                            alignment:Alignment.topRight,
-                                            iconSize: 24.0,
-                                            color: Colors.red,
-                                            onPressed: (){
-
-                                            }
-                                        ),
-
-
-                                      ]
-                                  ),
-
-
-
-
-
-                                ]
-                            )
-
-
-
-
-                          ],
-                        ),
-                      ),
-                    ),
-
-
-
-                  ],
-                ),
-              ),
-              elevation: 10,
-              margin: const EdgeInsets.all(10),
-            ),
-          ]
-      ),
-      ),
+    ],
+    ),
+    )
     );
   }
+}
+class shopinCartItem {
+  shopinCartItem({  this.data,   this.qty});
+
+  Data data;
+  int qty;
 }

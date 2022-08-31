@@ -1,20 +1,18 @@
-import 'package:demo5/router/route_guard.dart';
-import 'package:demo5/router/router.gr.dart';
-import 'package:demo5/ui/pages/BarCode.dart';
 import 'package:demo5/ui/pages/Payment.dart';
 import 'package:demo5/ui/pages/home.dart';
 import 'package:demo5/ui/pages/login.dart';
 
-import 'package:demo5/util/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 
 Future<void> main() async {
+  await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var token = prefs.getString('token');
@@ -22,13 +20,13 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: token == null ? MyLogin() : HOME(),
+      home: token == null ? const MyLogin() : const HOME(),
       builder: EasyLoading.init(),
       routes: {
         '/home': (_) => const HOME(),
-        '/login':(_) => MyLogin(),
+        '/login':(_) => const MyLogin(),
 
-        '/paymrnt':(_)=> payment()
+        '/paymrnt':(_)=> const payment()
       },
 
       title: 'Localizations Sample App',

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'OrderHistory.dart';
+
 class EditSuppliers extends StatelessWidget {
   const EditSuppliers({Key key}) : super(key: key);
 
@@ -28,80 +30,80 @@ class EditSuppliers extends StatelessWidget {
 
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text('Supplier Name', textAlign: TextAlign.left),
-                SizedBox(
+                const Text('Supplier Name', textAlign: TextAlign.left),
+                const SizedBox(
                   width: 25,
                   height: 10,
                 ),
-                TextField(
+                const TextField(
                   cursorColor: Colors.blue,
                   decoration: InputDecoration(
                       hintText: 'Supplier Name',
-                      contentPadding: const EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                       )
 
                   ),
                 ),
 
-                Text('Supplier Contact Person', textAlign: TextAlign.left),
-                SizedBox(
+                const Text('Supplier Contact Person', textAlign: TextAlign.left),
+                const SizedBox(
                   width: 25,
                   height: 10,
                 ),
 
-                TextField(
+                const TextField(
                   cursorColor: Colors.blue,
                   decoration: InputDecoration(
                       hintText: 'Supplier Contact Person',
-                      contentPadding: const EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                       )
 
                   ),
                 ),
-                Text('Supplier Cell', textAlign: TextAlign.left),
-                SizedBox(
+                const Text('Supplier Cell', textAlign: TextAlign.left),
+                const SizedBox(
                   width: 25,
                   height: 10,
                 ),
-                TextField(
+                const TextField(
                   cursorColor: Colors.blue,
                   decoration: InputDecoration(
                       hintText: 'Supplier Cell',
-                      contentPadding: const EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                       )
 
                   ),
                 ),
-                Text('Supplier Email', textAlign: TextAlign.left),
-                SizedBox(
+                const Text('Supplier Email', textAlign: TextAlign.left),
+                const SizedBox(
                   width: 25,
                   height: 10,
                 ),
-                TextField(
+                const TextField(
                   cursorColor: Colors.blue,
                   decoration: InputDecoration(
                       hintText: 'Supplier Email',
-                      contentPadding: const EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                       )
 
                   ),
                 ),
-                Text('Supplier Address', textAlign: TextAlign.left),
-                SizedBox(
+                const Text('Supplier Address', textAlign: TextAlign.left),
+                const SizedBox(
                   width: 25,
                   height: 10,
                 ),
-                TextField(
+                const TextField(
                   minLines: 8,
                   maxLines: 12,
                   cursorColor: Colors.blue,
                   decoration: InputDecoration(
                       hintText: 'Supplier Address',
-                      contentPadding: const EdgeInsets.all(10),
+                      contentPadding: EdgeInsets.all(10),
                       border: OutlineInputBorder(
                       )
 
@@ -109,18 +111,22 @@ class EditSuppliers extends StatelessWidget {
                 ),
                 TextButton(
 
-                  child: Text("Edit"),
+                  child: const Text("Edit"),
                   style: TextButton.styleFrom(
                     primary: Colors.white,
                     backgroundColor: Colors.blue,
-                    side: BorderSide(color: Colors.white, width: 1),
+                    side: const BorderSide(color: Colors.white, width: 1),
                     elevation: 15,
-                    minimumSize: Size(80, 50),
+                    minimumSize: const Size(80, 50),
                     shadowColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
 
                   ),
                   onPressed:() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OrderHistory()),
+                    );
 
                   },
                 )

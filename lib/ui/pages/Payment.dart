@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'EditSuppliers.dart';
+import 'ShopInfo.dart';
 
 class payment extends StatelessWidget {
   const payment({Key key}) : super(key: key);
@@ -18,7 +19,7 @@ class payment extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditSuppliers()),
+              MaterialPageRoute(builder: (context) => const ShopInfo()),
             );
 
             // Add your onPressed code here!
@@ -36,19 +37,19 @@ class payment extends StatelessWidget {
                   //adding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                     children : [
 
-                      SizedBox(height: 5,),
+                      const SizedBox(height: 5,),
                       TextField(
 
                         decoration: InputDecoration(
                           hintText: 'Enter a search term',
-              enabledBorder: OutlineInputBorder(
+              enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blue, width: 2.0),
               ),
                           suffixIcon: IconButton(
                             onPressed: (() {
 
                             }),
-                            icon: Icon(Icons.search),
+                            icon: const Icon(Icons.search),
                           ),
                         ),
                       ),
@@ -75,7 +76,7 @@ class payment extends StatelessWidget {
                               children: [
                                 Center(
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Expanded(
                                       child:Image.asset('assets/images/debit-card.png',
                                         height:50 ,
@@ -89,7 +90,7 @@ class payment extends StatelessWidget {
                                   child:Container(
                                     alignment: Alignment.topLeft,
                                     child: Column(
-                                      children: [
+                                      children: const [
                                         Expanded(
                                           flex: 10,
                                           child: ListTile(
@@ -102,7 +103,7 @@ class payment extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: IconButton(
-                                      icon: Icon(Icons.delete),
+                                      icon: const Icon(Icons.delete),
                                       color: Colors.red,
                                       alignment:Alignment.topRight,
                                       iconSize: 30,
@@ -127,7 +128,7 @@ class payment extends StatelessWidget {
                               children: [
                                 Center(
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Expanded(
                                       child:Image.asset('assets/images/debit-card.png',
                                         height:50 ,
@@ -141,7 +142,7 @@ class payment extends StatelessWidget {
                                   child:Container(
                                     alignment: Alignment.topLeft,
                                     child: Column(
-                                      children: [
+                                      children: const [
                                         Expanded(
                                           flex: 10,
                                           child: ListTile(
@@ -154,7 +155,7 @@ class payment extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: IconButton(
-                                      icon: Icon(Icons.delete),
+                                      icon: const Icon(Icons.delete),
                                       color: Colors.red,
                                       alignment:Alignment.topRight,
                                       iconSize: 30,
@@ -183,7 +184,7 @@ class payment extends StatelessWidget {
                               children: [
                                 Center(
                                   child: Padding(
-                                    padding: EdgeInsets.all(10),
+                                    padding: const EdgeInsets.all(10),
                                     child: Expanded(
                                       child:Image.asset('assets/images/debit-card.png',
                                         height:50 ,
@@ -197,7 +198,7 @@ class payment extends StatelessWidget {
                                   child:Container(
                                     alignment: Alignment.topLeft,
                                     child: Column(
-                                      children: [
+                                      children: const [
                                         Expanded(
                                           flex: 10,
                                           child: ListTile(
@@ -210,7 +211,7 @@ class payment extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: IconButton(
-                                      icon: Icon(Icons.delete),
+                                      icon: const Icon(Icons.delete),
                                       color: Colors.red,
                                       alignment:Alignment.topRight,
                                       iconSize: 30,
