@@ -420,7 +420,7 @@ class _MyApState extends State<BareCode> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: const <Widget>[
-          Text("Order successfully done"),
+          Text("Order successfully done 2"),
         ],
       ),
       actions: <Widget>[
@@ -464,7 +464,7 @@ class _MyApState extends State<BareCode> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+           '#a3ff9d', '', false, ScanMode.BARCODE);
 
    //   ShowOverlay(context);
     //  EasyLoading.show(status: 'loading...');

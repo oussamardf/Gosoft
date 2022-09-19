@@ -2,6 +2,7 @@ import 'package:demo5/ui/pages/Payment.dart';
 import 'package:demo5/ui/pages/home.dart';
 import 'package:demo5/ui/pages/login.dart';
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,6 +13,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 
 Future<void> main() async {
+
   await Hive.initFlutter();
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();

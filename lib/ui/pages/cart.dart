@@ -16,6 +16,8 @@ import '../../models/classe.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
+import 'BarCode.dart';
+import 'Barcode2.dart';
 import 'home.dart';
 
 
@@ -31,7 +33,8 @@ Map maList = {};
 var index;
 var index2;
 var map;
-
+List<Map<String, dynamic>> persons =  [];
+List<Map<String, dynamic>> pricee =  [];
 class Cart extends StatefulWidget {
   const Cart({Key key}) : super(key: key);
 
@@ -41,17 +44,24 @@ class Cart extends StatefulWidget {
 
 class _MyApState extends State<Cart> {
 
+  int r;
+double tot;
+double total;
+String barcodeScanRes;
+void initState(){
+  super.initState();
+  setState((){
+total;
+   // scanBarcodeNormal();
+  });
 
-
-List<Map<String, dynamic>> persons =  [];
-
-
-
+}
 
 
   @override
 
   Widget build(BuildContext context) {
+
 
 
 
@@ -96,7 +106,7 @@ List<Map<String, dynamic>> persons =  [];
 
                     setState(() {
 
-                      scanBarcodeNormal();
+                 //   scanBarcodeNormal();
 
 
 
@@ -125,8 +135,10 @@ List<Map<String, dynamic>> persons =  [];
 
                 Stack(
                     children: [
-                    Container(),
-            Positioned.fill(
+
+                      Positioned.fill(
+                        left: 2,
+
             child:
             GridView.builder(
               itemCount: maList.length,
@@ -143,11 +155,16 @@ List<Map<String, dynamic>> persons =  [];
 
                  index = maList.keys.elementAt(key);
 
+
+                   total= double.parse(maList[index].data.price??'' ) *(maList[index].qty);
+                //   print (total);
+
                     return Dismissible(
 
 
                         key: UniqueKey(),
                         direction: DismissDirection.endToStart,
+
                         onDismissed: (DismissDirection direction) async {
 
 
@@ -155,8 +172,7 @@ List<Map<String, dynamic>> persons =  [];
                           setState(() {
 
                              index2= maList.keys.elementAt(key);
-                             int r=maList[index2].data.id;
-
+                           r=maList[index2].data.id;
 
                             maList.removeWhere((key, value) => key == index2);
                              showDialog(
@@ -167,6 +183,7 @@ List<Map<String, dynamic>> persons =  [];
 
                              print ('my persons');
                              print(persons);
+                             print(index);
 
 
 
@@ -218,8 +235,8 @@ List<Map<String, dynamic>> persons =  [];
                                       ),
 
                                     Spacer(),
-                                      Text(
-                                        "\$${  maList[index].data.price.toString()}",
+                                      Text("${total}",
+                                     //  "\$${ double.parse(maList[index].data.price??'' ) *(maList[index].qty) }",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -244,6 +261,7 @@ List<Map<String, dynamic>> persons =  [];
                                                 child: InkWell(
                                                     child: Icon(Icons.remove),
                                                 onTap: (){
+                                                      print(key);
                                                   //action code when clicked
                                                   _dinCounter(key);
                                                 },
@@ -262,8 +280,7 @@ List<Map<String, dynamic>> persons =  [];
                                                   child: Icon(Icons.add),
                                                   onTap: (){
                                                     index2= maList.keys.elementAt(key);
-                                                    //action code when clicked
-                                                   // _incrementCounter(index2);
+
                                                     setState((){
 
                                                     });
@@ -328,24 +345,81 @@ List<Map<String, dynamic>> persons =  [];
                   },
             )
                 ),
+
+
+                      Positioned.fill(
+                          top: 600,
+
+                          child:
+                          Column(
+                            children: [
+                              Divider(
+                                  color: Colors.black,
+                                height: 20,
+                                thickness: 3,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    color: Colors.red,
+                                    child:
+                                           Text('Totale:',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+
+                                  ),Spacer(),
+                                  Container(
+                                    child: Text(  "${qty}",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+
+
+                            ],
+                          )
+
+                      ),
+
                     ],
 
                 );
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(),);
             }
-          }),
+          },
+
+
+          ),
+
 
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              setState(() {
 
-                Checkout();
-              });
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => _buildPopupDialog(context),
-              );
+            onPressed: () {
+              if (maList.isNotEmpty) {
+                setState(() {
+
+
+
+                  Checkout();
+                });
+
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => _buildPopupDialog(context),
+                );
+              }
+              else
+                {
+                  return null;
+                }
+
+
             },
             backgroundColor: Colors.blue,
             label: const Text("confirm"),
@@ -416,20 +490,26 @@ List<Map<String, dynamic>> persons =  [];
         {
 
           "line_items":
-            persons
+            persons,
+
 
 
         }
         )
+
       );
 
 
       if (response.statusCode == 201) {
         final body = jsonDecode(response.body.toString());
 
-
+print(persons);
         print('done');
+      setState((){
+        maList.clear();
+        persons.clear();
 
+      });
       }
       else {
 
@@ -442,6 +522,19 @@ List<Map<String, dynamic>> persons =  [];
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 Future scanBarcodeNormal() async {
   var size=MediaQuery.of(context).size;
   final double itemHeight= size.height/6.7;
@@ -449,249 +542,11 @@ Future scanBarcodeNormal() async {
 
   SharedPreferences pref = await SharedPreferences.getInstance();
   var token= pref.getString("token");
-  String barcodeScanRes;
 
+barcodeScanRes=pref.getString('barcode');
+print('this is mun codddde');
+print(barcodeScanRes);
 
-  // Platform messages may fail, so we use a try/catch PlatformException.
- // ShowOverlay(context);
-  try {
-    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-
-
-    // EasyLoading.show(status: 'loading...');
-
-
-
-
-      OverlayState overlayState = Overlay.of(context);
-
-      OverlayEntry overlayEntry = OverlayEntry(
-
-        builder: (context) =>
-
-
-            MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: Scaffold(
-
-                appBar: AppBar(
-                  backgroundColor: Colors.blue,
-                  elevation: 0,
-                  centerTitle: true,
-                  title: Text(
-                    "loading..",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-
-                    },
-                  ),
-                  iconTheme: IconThemeData(color: Colors.white),
-
-                  actions: [
-                    IconButton(
-                        icon: const Icon(Icons.qr_code_scanner),
-                        onPressed: () {
-
-                        }),
-                  ],
-
-
-                ),
-
-                // my card
-                body: Builder(builder: (context) {
-                  if (maList.isNotEmpty) {
-                    return
-
-                      Stack(
-                        children: [
-                          Container(),
-                          Positioned.fill(
-                              child:
-                              GridView.builder(
-                                itemCount: maList.length,
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  childAspectRatio: (itemWidth / itemHeight),
-
-
-                                ),
-                                padding: EdgeInsets.all(8),
-                                itemBuilder: (context, key) {
-                                  index = maList.keys.elementAt(key);
-
-                                  return
-                                    Card(
-
-                                      elevation: 15,
-                                      child: Container(
-
-                                        height: 110,
-                                        padding: const EdgeInsets.all(8.0),
-                                        width: 100,
-                                        margin: EdgeInsets.all(4.0),
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 0, right: 15),
-                                                child: CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                      (maList[index].data.images
-                                                          .isNotEmpty)
-                                                          ? maList[index].data
-                                                          .images[0].src
-                                                          : ""),
-
-                                                  radius: 30,
-                                                )
-                                            ),
-                                            SizedBox(width: 16),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 16.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Text(
-                                                      maList[index].data.name,
-                                                      maxLines: 2,
-                                                      overflow: TextOverflow
-                                                          .ellipsis,
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .bold,
-                                                      ),
-                                                    ),
-                                                    Spacer(),
-                                                    Text(
-                                                      "\$${ maList[index].data
-                                                          .price.toString()}",
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight
-                                                            .bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-
-
-                                            Column(
-                                              children: [
-
-                                                Row(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Container(
-                                                          color: Colors.grey[200],
-                                                          child: InkWell(
-                                                            child: Icon(
-                                                                Icons.remove),
-                                                            onTap: () {
-                                                              //action code when clicked
-
-                                                            },
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          padding: EdgeInsets.all(
-                                                              8.0),
-                                                          child: Text(
-                                                            maList[index].qty
-                                                                .toString(),
-
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          color: Colors.grey[200],
-                                                          child: InkWell(
-                                                            child: Icon(
-                                                                Icons.add),
-                                                            onTap: () {
-                                                              //action code when clicked
-
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-
-                                                  ],
-                                                ),
-                                                Spacer(),
-                                                Row(
-                                                  children: [
-
-                                                    Container(
-                                                      child: IconButton(
-                                                          icon: const Icon(
-                                                              Icons.delete),
-                                                          iconSize: 24.0,
-                                                          color: Colors.green,
-
-                                                          onPressed: () {
-
-                                                          }),
-                                                    ),
-
-
-                                                  ],
-                                                ),
-
-
-                                              ],
-                                            ),
-
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                },
-                              )
-                          ),
-                        ],
-
-                      );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                }),
-
-                floatingActionButton: FloatingActionButton.extended(
-                  onPressed: () {
-
-                  },
-                  backgroundColor: Colors.blue,
-                  label: const Text("confirm"),
-                ),
-              ),
-              builder: EasyLoading.init(),
-            ),
-
-      );
-      overlayState?.insert(overlayEntry);
-
-
-
-
-
-
-
-
-
-
-
-
-    // ShowOverlay(context);
 
     final response = await http.get(
       Uri.parse(
@@ -707,14 +562,10 @@ Future scanBarcodeNormal() async {
 
     if (response.statusCode == 200) {
 
-
+print('***********succed***********');
 
 
       // ShowOverlay(context);
-
-      setState((){
-        overlayEntry.remove();
-      });
 
 
 
@@ -724,15 +575,7 @@ Future scanBarcodeNormal() async {
 
       data = parsed.map<Data>((json) => Data.fromJson(json)).toList();
       print(data.toString());
-      var  id= data[0].id;
-      Map<String, dynamic> map={
-        "product_id":id
-      };
-      persons.add(map);
-      print (persons);
 
-      print('my map');
-      print(map);
 
 
 
@@ -752,11 +595,9 @@ Future scanBarcodeNormal() async {
     else {
 
       print('Failed to load data');
+      print(barcodeScanRes);
     }
-  } on PlatformException {
 
-    barcodeScanRes = 'Failed to get platform version.';
-  }
 
 
 
@@ -784,25 +625,33 @@ Future scanBarcodeNormal() async {
     var index2= maList.keys.elementAt(key);
     int r=maList[index2].data.id;
     setState(() {
-      if (maList[index2].qty > 1) {
+      if (maList[index2].qty >1) {
+        qty=qty-double.parse(maList[index2].data.price);
+        print('***********');
+        print(maList[index2].qty);
+        print('***********');
+        print(index2);
         maList[index2].qty--;
-        persons.removeAt(key);
+       persons.removeAt(key);
         print(persons);
+
       } else {
 
-
+        qty=qty-double.parse(maList[index2].data.price);
         maList.removeWhere((key, value) => key == index2);
         persons.removeWhere((element) => element["product_id"] == r);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => removeDialog(context),
+        );
+
         print(persons);
       }
     });
   }
+void delete(dynamic key){
+  
+}
 }
 
-class shopinCartItem {
-  shopinCartItem({  this.data,   this.qty});
-
-  Data data;
-  int qty;
-}
 

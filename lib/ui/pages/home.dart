@@ -1,5 +1,6 @@
 import 'package:demo5/ui/pages/cart.dart';
 import 'package:demo5/ui/pages/progrz.dart';
+import 'package:demo5/ui/pages/Order.dart';
 
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ import '../../Utils/custom_clipper.dart';
 import 'AddCostumer.dart';
 import 'AllSuppliers.dart';
 import 'BarCode.dart';
+import 'Barcode2.dart';
 import 'OrderHistory.dart';
 import 'login.dart';
 
@@ -115,7 +117,7 @@ var height =MediaQuery.of(context).size.height;
                             highlightElevation: 2,
                             onPressed: () {Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>   AddCostumer()),
+                              MaterialPageRoute(builder: (context) =>   testorder()),
                             );
                               },
                             color: Colors.blue,
@@ -181,10 +183,11 @@ Spacer(),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             highlightElevation: 2,
-                            onPressed: () {Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AllSuppliers()),
-                            );},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const QRViewExample(),
+                              ));
+                              },
                             color: Colors.blue,
                             disabledColor: Colors.black,
                             child: Column(

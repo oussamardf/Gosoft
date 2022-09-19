@@ -56,6 +56,9 @@ dependencies:
   flutter_progress_hud: ^2.0.2
   hive:
   hive_flutter:
+  qr_code_scanner: ^1.0.1
+  fluttertoast: ^8.0.9
+
 
  # barcode_scanner: ^3.1.0
 
