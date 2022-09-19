@@ -128,7 +128,7 @@ var height =MediaQuery.of(context).size.height;
                                 Spacer(),
                                 // SizedBox(height: 7,),
                                 const Text(
-                                  'CUSTMERS',
+                                  'Order History',
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.w700,
@@ -184,9 +184,8 @@ Spacer(),
                                 borderRadius: BorderRadius.circular(10)),
                             highlightElevation: 2,
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const QRViewExample(),
-                              ));
+
+
                               },
                             color: Colors.blue,
                             disabledColor: Colors.black,
